@@ -16,11 +16,12 @@ const ctx = cnv.getContext (`2d`)
 class Root {
    constructor (x,y){
       // 
-      this.letters = ["c", "l", "i", "c", "k"];
+      this.letters = ["c", "l", "i", "c", "k", "."];
 
       //
-      this.randomLetter = this.letters[Math.floor (Math.random() * this.letters.length)]
+      this.randomLetter = this.letters[Math.floor (Math.random() * this.letters.length)];
 
+      // 
       this.x = x;
       this.y = y;
 
@@ -28,30 +29,39 @@ class Root {
       this.dX = Math.random() * 8 - 4;
       this.dY = Math.random() * 8 -4;
 
-      // Define the initial length of the root
-      this.size = 12;
+      // Define the initial size of the root
+      // between 0 and 20 
+      this.size = Math.random() * 20;
 
-      //
-      this.maxSize = 30;
+      // Define a random maximum size of the root 
+      // between 0 and 50
+      this.maxSize = Math.random() * 50;
+
+      // Define random angle between 0 and 6.2 (360 degree)
+      this.angle = Math.random() * 6.2;
    }
 
    // Define a function for the grow animation
    grow(){
       // Move the position of the root 
       // according to the direction
-      this.x += this.dX
-      this.y += this.dY
+      this.x += this.dX + Math.sin (this.angle);
+      this.y += this.dY + Math.sin (this.angle);
 
-      // Increase the length of the root
-      this.size += 0.25
+      // Increase the size of the root
+      this.size += 0.5;
 
-      // Draw a segment as long as the length is less than 50
+      // Increase the angle of the root
+      this.angle += 0.1;
+
+      // Draw the root growth 
+      // as long as the size of the root is less than the maximum
       if (this.size < this.maxSize){
          ctx.font = `${this.size}px monospace`;
 
-         ctx.fillStyle = `hsl(${Math.random() * 360}, 50%, 70%)` 
+         ctx.fillStyle = `hsl(${Math.random() * 360}, 80%, 50%)`;
 
-         ctx.fillText (this.randomLetter, this.x, this.y)
+         ctx.fillText (this.randomLetter, this.x, this.y);
 
          requestAnimationFrame (this.grow.bind(this));
       }
