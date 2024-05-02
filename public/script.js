@@ -4,7 +4,7 @@ document.body.style.overflow = `hidden`
 // Get 'shapes' canvas elements
 const cnv = document.getElementById (`letter_trails`)
 
-// Setting canvas sizze
+// Setting canvas size
 cnv.width = innerWidth
 cnv.height = innerHeight
 
@@ -14,16 +14,25 @@ cnv.style.backgroundColor = 'blue'
 // Get canvas context
 const ctx = cnv.getContext (`2d`)
 
+ctx.shadowOffsetX = 2;
+ctx.shadowOffsetY = 2;
+ctx.shadowBlur = 50;
+ctx.shadowColor = 'blue';
+
 // Draw a letter root that grows at random speed and direction
 // Create a class for the root
 class Root {
    constructor (x,y){
 
       // Define a letters array 
-      this.letters = ["c", "l", "i", "c", "k", "."];
+      this.letters1 = ["p", "r", "e", "s", "s", "s","o", "u", "n", "d", "press", "for", "sound"];
+      
+      this.letters2 = ["THIS", "IS", "SOUND"];
 
       // Choose a random letter in the letters array
-      this.randomLetter = this.letters[Math.floor (Math.random() * this.letters.length)];
+      this.randomLetter1 = this.letters1[Math.floor (Math.random() * this.letters1.length)];
+
+      this.randomLetter2 = this.letters2[Math.floor (Math.random() * this.letters2.length)];
 
       // Define x, y 
       this.x = x;
@@ -39,11 +48,12 @@ class Root {
 
       // Define a random maximum size of the root 
       // between 0 and 50
-      this.maxSize = Math.random() * 50;
+      this.maxSize = Math.random() * 40;
 
       // Define random angle between 0 and 6.2 (360 degree)
       this.angle = Math.random() * 6.2;
 
+      // Define the length of the letter trail
       this.length = (this.maxSize - this.size)/ 0.5 + 1
 
       // Define the opacity of the letter
@@ -82,7 +92,7 @@ class Root {
 
          // Draw the random letter
          // according to the x and y position
-         ctx.fillText (this.randomLetter, this.x, this.y);
+         ctx.fillText (this.randomLetter1, this.x, this.y);
 
          // Call the next animation frame
          requestAnimationFrame (this.grow.bind(this));
@@ -90,18 +100,66 @@ class Root {
       }
    }
 
+   sprout (){
+      // Move the position of the root 
+      // according to the direction and the angle
+      this.x += this.dX + Math.cos (this.angle);
+      this.y += this.dY + Math.cos (this.angle);
+
+      // Increase the size of the root
+      this.size += 0.5;
+
+      // Increase the angle of the root
+      this.angle += 0.1;
+
+      if (this.opacity <=1) this.opacity +=0.1
+
+      // Draw the root growth 
+      // as long as the size of the root is less than the maximum
+      if (this.size < this.maxSize){
+
+         //ctx.clearRect (this.x, this.y, this.size, this.size)
+
+         // Set a random font colour in HSL value
+         ctx.fillStyle = `hsl(0, 50%, 100%, ${this.opacity})`;
+
+         //
+         ctx.fillRect (this.x, this.y, this.size, this.size);
+
+         // Call the next animation frame
+         requestAnimationFrame (this.sprout.bind(this));
+
+      }
+   }
 }
 
-// Define a function to handle mouse event
-// when the cursor moves over the canvas
-window.addEventListener('mousemove', function(e) {
+cnv.onpointermove = e => {
    // Draw new root 
    // in cordinate with the position of the cursor
    const root = new Root (e.x, e.y);
 
    // Call the grow function
    root.grow();
-})
+}
+
+cnv.onpointerdown = e => {
+   // Draw new root 
+   // in cordinate with the position of the cursor
+   const root = new Root (e.x, e.y);
+
+   // Call the grow function
+   root.sprout();
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
