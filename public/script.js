@@ -14,9 +14,7 @@ cnv.style.backgroundColor = 'blue'
 // Get canvas context
 const ctx = cnv.getContext (`2d`)
 
-ctx.shadowOffsetX = 2;
-ctx.shadowOffsetY = 2;
-ctx.shadowBlur = 50;
+
 
 
 // Draw a letter root that grows at random speed and direction
@@ -27,7 +25,7 @@ class Root {
       // Define a letters array 
       this.letters1 = ["c", "l", "i", "c", "k", "click"];
       
-      this.letters2 = ["THIS", "IS", "SOUND"];
+      this.letters2 = ["sound", "overtaking", "visual", "erasing"];
 
       // Choose a random letter in the letters array
       this.randomLetter1 = this.letters1[Math.floor (Math.random() * this.letters1.length)];
@@ -86,24 +84,19 @@ class Root {
       // as long as the size of the root is less than the maximum
       if (this.size < this.maxSize){
 
-         //ctx.clearRect (this.x, this.y, this.size, this.size)
-
          // Set font size based on root size
          // Set the font family to monospace
          ctx.font = `${this.size}px monospace`;
 
          // Set a random font colour in HSL value
-         ctx.fillStyle = `hsl(${Math.random() * 360}, 60%, 50%, ${this.opacity})`;
+         ctx.fillStyle = `hsl(${Math.random() * 360}, 60%, 55%, ${this.opacity})`;
 
          // Draw the random letter
          // according to the x and y position
          ctx.fillText (this.randomLetter1, this.x, this.y);
 
-         ctx.shadowColor = 'white';
-
          // Call the next animation frame
          requestAnimationFrame (this.grow.bind(this));
-
       }
    }
 
@@ -130,7 +123,7 @@ class Root {
 
          // Set font size based on root size
          // Set the font family to monospace
-         ctx.font = `${this.size}px monospace`;
+         ctx.font = `${this.size}px cursive`;
 
          // Set a random font colour in HSL value
          ctx.fillStyle = `white`;
@@ -138,6 +131,10 @@ class Root {
          // Draw the random letter
          // according to the x and y position
          ctx.fillText (this.randomLetter2, this.x, this.y);
+
+         ctx.shadowOffsetX = 5;
+         ctx.shadowOffsetY = 5;
+         ctx.shadowBlur = 50;
 
          ctx.shadowColor = 'blue';
 
@@ -214,8 +211,8 @@ function play_note (note, length) {
    osc.stop  (now + length)
 }
 
-// making an array of midi notes // CHANGE HERE
-const notes = [ 62, 66, 69, 73, 74, 73, 69, 66 ]
+// making an array of midi notes 
+const notes = [ 64, 63, 64, 63, 64, 59, 62, 60, 57]
 
 // declaring a mutable iterator
 let i = 0
@@ -274,20 +271,23 @@ window.addEventListener ("mousemove", function (e) {
 
    // as the cursor goes from left to right
    // len gos from 0 to 5
-   len = 5 * e.offsetX / cnv_2.width
+   len = 3 //* e.offsetX / cnv_2.width
 
    // as the cursor goes from bottom to top
    // period goes from 420 to 20 (milliseconds)
-   period = 20 + ((e.offsetY / cnv_2.height) ** 2) * 400
+   period = 100 + ((e.offsetY / cnv_2.height) ** 2) * 800
 })
 
 window.addEventListener ("mousedown", function (e) {
-   // Draw new root 
-   // in cordinate with the position of the cursor
-   const root = new Root (e.x, e.y);
+   
+   for (let i = 0; i < 3; i++){
+      // Draw new root 
+      // in cordinate with the position of the cursor
+      const root = new Root (e.x, e.y);
 
-   // Call the grow function
-   root.sprout(period);
+      // Call the grow function
+      root.sprout(period);
+   }
 
    // set running to true
    running = true
