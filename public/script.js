@@ -15,8 +15,6 @@ cnv.style.backgroundColor = 'blue'
 const ctx = cnv.getContext (`2d`)
 
 
-
-
 // Draw a letter root that grows at random speed and direction
 // Create a class for the root
 class Root {
@@ -60,8 +58,6 @@ class Root {
       this.opacity = 0;
 
       this.second = 0;
-
-      //this.period = period;
    }
 
    // Define a function for the grow animation
@@ -94,6 +90,12 @@ class Root {
          // Draw the random letter
          // according to the x and y position
          ctx.fillText (this.randomLetter1, this.x, this.y);
+
+         ctx.shadowOffsetX = 2;
+         ctx.shadowOffsetY = 5;
+         ctx.shadowBlur = 20;
+
+         ctx.shadowColor = 'black'
 
          // Call the next animation frame
          requestAnimationFrame (this.grow.bind(this));
@@ -296,6 +298,8 @@ window.addEventListener ("mousedown", function (e) {
    note_player ()
 
    drawing_grow = false;
+
+   
 })
 
 // this function handles the mouse event
