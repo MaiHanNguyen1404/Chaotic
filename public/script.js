@@ -272,10 +272,10 @@ function next_note () {
    // len variable to specify the length of the note
    play_note (notes[i], len)
 
-   // iterate the iterator
+   // Iterate the iterator
    i++
 
-   // if i gets too big
+   // If i gets too big
    // cycle back to 0
    i %= notes.length
 }
@@ -313,7 +313,7 @@ window.addEventListener ("mousemove", function (e) {
    }
 
    // As the cursor goes from left to right
-   // len gos from 0 to 5
+   // len gos from 0 to 3
    len = 3 //* e.offsetX / cnv_2.width
 
    // As the cursor goes from bottom to top
@@ -352,7 +352,7 @@ window.addEventListener ("mousedown", function (e) {
 // when the mouse is not pressed down on the canvas
 window.addEventListener ("mouseup", function (e){
 
-   // set notes running to false
+   // Set notes running to false
    running = false
 
    // Set the grow drawing state to true
